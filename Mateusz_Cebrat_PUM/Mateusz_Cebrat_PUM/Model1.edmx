@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BazaKartotekaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anamnesis">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="int" Nullable="false" />
+          <Property Name="weight" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="height" Type="int" />
+          <Property Name="bloodType" Type="char" MaxLength="2" />
+          <Property Name="rh" Type="char" MaxLength="5" />
+          <Property Name="alcohol" Type="char" MaxLength="3" />
+          <Property Name="cigaretts" Type="char" MaxLength="3" />
+          <Property Name="medicines" Type="nchar" MaxLength="500" />
+          <Property Name="allergy" Type="nchar" MaxLength="500" />
+          <Property Name="chronicDiseases" Type="nchar" MaxLength="500" />
+          <Property Name="treatment" Type="nchar" MaxLength="500" />
+          <Property Name="additionalInformation" Type="nchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="doctorID" />
+          </Key>
+          <Property Name="doctorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="surname" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nurse">
+          <Key>
+            <PropertyRef Name="NurseID" />
+          </Key>
+          <Property Name="NurseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="surname" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="pesel" Type="nchar" MaxLength="11" Nullable="false" />
+          <Property Name="sex" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="dateOfBirth" Type="nchar" MaxLength="12" Nullable="false" />
+          <Property Name="adress" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="city" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="doctorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Visits">
+          <Key>
+            <PropertyRef Name="visitID" />
+          </Key>
+          <Property Name="patientID" Type="int" Nullable="false" />
+          <Property Name="visitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="doctorID" Type="int" Nullable="false" />
+          <Property Name="date" Type="nchar" MaxLength="12" Nullable="false" />
+          <Property Name="time" Type="nchar" MaxLength="12" Nullable="false" />
+          <Property Name="pressure" Type="nchar" MaxLength="7" />
+          <Property Name="pulse" Type="int" />
+          <Property Name="temperature" Type="decimal" Precision="3" Scale="1" />
+          <Property Name="symptoms" Type="nchar" MaxLength="500" />
+          <Property Name="diagnosis" Type="nchar" MaxLength="500" />
+          <Property Name="recommendations" Type="nchar" MaxLength="500" />
+          <Property Name="visitMedicines" Type="nchar" MaxLength="500" />
+          <Property Name="additionalVisitInformation" Type="nchar" MaxLength="500" />
+          <Property Name="mark" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkInterview">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="int" Nullable="false" />
+          <Property Name="profession" Type="nchar" MaxLength="50" />
+          <Property Name="practisedProfession" Type="nchar" MaxLength="50" />
+          <Property Name="ocupationalDisease" Type="nchar" MaxLength="50" />
+          <Property Name="nuisance" Type="nchar" MaxLength="50" />
+          <Property Name="accidents" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Anamnesis_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Anamnesis" Type="Self.Anamnesis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="Anamnesis">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="Patients" Type="Self.Patients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="doctorID" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="doctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visits_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkInterview_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="WorkInterview" Type="Self.WorkInterview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="WorkInterview">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BazaKartotekaModelStoreContainer">
+          <EntitySet Name="Anamnesis" EntityType="Self.Anamnesis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nurse" EntityType="Self.Nurse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkInterview" EntityType="Self.WorkInterview" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Anamnesis_Patients" Association="Self.FK_Anamnesis_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Anamnesis" EntitySet="Anamnesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Doctors" Association="Self.FK_Patients_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visits_Patients" Association="Self.FK_Visits_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkInterview_Patients" Association="Self.FK_WorkInterview_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="WorkInterview" EntitySet="WorkInterview" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BazaKartotekaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anamnesis">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="Int32" Nullable="false" />
+          <Property Name="weight" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="height" Type="Int32" />
+          <Property Name="bloodType" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="rh" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="alcohol" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="cigaretts" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="medicines" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="allergy" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="chronicDiseases" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="treatment" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="additionalInformation" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Anamnesis_Patients" FromRole="Anamnesis" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="doctorID" />
+          </Key>
+          <Property Name="doctorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Doctors" FromRole="Doctors" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="Nurse">
+          <Key>
+            <PropertyRef Name="NurseID" />
+          </Key>
+          <Property Name="NurseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="pesel" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="sex" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="dateOfBirth" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="adress" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="doctorID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Anamnesis" Relationship="Self.FK_Anamnesis_Patients" FromRole="Patients" ToRole="Anamnesis" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK_Patients_Doctors" FromRole="Patients" ToRole="Doctors" />
+          <NavigationProperty Name="Visits" Relationship="Self.FK_Visits_Patients" FromRole="Patients" ToRole="Visits" />
+          <NavigationProperty Name="WorkInterview" Relationship="Self.FK_WorkInterview_Patients" FromRole="Patients" ToRole="WorkInterview" />
+        </EntityType>
+        <EntityType Name="Visits">
+          <Key>
+            <PropertyRef Name="visitID" />
+          </Key>
+          <Property Name="patientID" Type="Int32" Nullable="false" />
+          <Property Name="visitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="doctorID" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="time" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="pressure" Type="String" MaxLength="7" FixedLength="true" Unicode="true" />
+          <Property Name="pulse" Type="Int32" />
+          <Property Name="temperature" Type="Decimal" Precision="3" Scale="1" />
+          <Property Name="symptoms" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="diagnosis" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="recommendations" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="visitMedicines" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="additionalVisitInformation" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="mark" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Visits_Patients" FromRole="Visits" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="WorkInterview">
+          <Key>
+            <PropertyRef Name="patientID" />
+          </Key>
+          <Property Name="patientID" Type="Int32" Nullable="false" />
+          <Property Name="profession" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="practisedProfession" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="ocupationalDisease" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="nuisance" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="accidents" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_WorkInterview_Patients" FromRole="WorkInterview" ToRole="Patients" />
+        </EntityType>
+        <Association Name="FK_Anamnesis_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Anamnesis" Type="Self.Anamnesis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="Anamnesis">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="1" />
+          <End Role="Patients" Type="Self.Patients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="doctorID" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="doctorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visits_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkInterview_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="WorkInterview" Type="Self.WorkInterview" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="patientID" />
+            </Principal>
+            <Dependent Role="WorkInterview">
+              <PropertyRef Name="patientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Kartoteka_Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anamnesis" EntityType="Self.Anamnesis" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" />
+          <EntitySet Name="Nurse" EntityType="Self.Nurse" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" />
+          <EntitySet Name="Visits" EntityType="Self.Visits" />
+          <EntitySet Name="WorkInterview" EntityType="Self.WorkInterview" />
+          <AssociationSet Name="FK_Anamnesis_Patients" Association="Self.FK_Anamnesis_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Anamnesis" EntitySet="Anamnesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Doctors" Association="Self.FK_Patients_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visits_Patients" Association="Self.FK_Visits_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkInterview_Patients" Association="Self.FK_WorkInterview_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="WorkInterview" EntitySet="WorkInterview" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BazaKartotekaModelStoreContainer" CdmEntityContainer="Kartoteka_Entities1">
+          <EntitySetMapping Name="Anamnesis">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.Anamnesis">
+              <MappingFragment StoreEntitySet="Anamnesis">
+                <ScalarProperty Name="patientID" ColumnName="patientID" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="bloodType" ColumnName="bloodType" />
+                <ScalarProperty Name="rh" ColumnName="rh" />
+                <ScalarProperty Name="alcohol" ColumnName="alcohol" />
+                <ScalarProperty Name="cigaretts" ColumnName="cigaretts" />
+                <ScalarProperty Name="medicines" ColumnName="medicines" />
+                <ScalarProperty Name="allergy" ColumnName="allergy" />
+                <ScalarProperty Name="chronicDiseases" ColumnName="chronicDiseases" />
+                <ScalarProperty Name="treatment" ColumnName="treatment" />
+                <ScalarProperty Name="additionalInformation" ColumnName="additionalInformation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.Doctors">
+              <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="doctorID" ColumnName="doctorID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nurse">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.Nurse">
+              <MappingFragment StoreEntitySet="Nurse">
+                <ScalarProperty Name="NurseID" ColumnName="NurseID" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.Patients">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="patientID" ColumnName="patientID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="pesel" ColumnName="pesel" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="dateOfBirth" ColumnName="dateOfBirth" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="doctorID" ColumnName="doctorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visits">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.Visits">
+              <MappingFragment StoreEntitySet="Visits">
+                <ScalarProperty Name="patientID" ColumnName="patientID" />
+                <ScalarProperty Name="visitID" ColumnName="visitID" />
+                <ScalarProperty Name="doctorID" ColumnName="doctorID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="pressure" ColumnName="pressure" />
+                <ScalarProperty Name="pulse" ColumnName="pulse" />
+                <ScalarProperty Name="temperature" ColumnName="temperature" />
+                <ScalarProperty Name="symptoms" ColumnName="symptoms" />
+                <ScalarProperty Name="diagnosis" ColumnName="diagnosis" />
+                <ScalarProperty Name="recommendations" ColumnName="recommendations" />
+                <ScalarProperty Name="visitMedicines" ColumnName="visitMedicines" />
+                <ScalarProperty Name="additionalVisitInformation" ColumnName="additionalVisitInformation" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkInterview">
+            <EntityTypeMapping TypeName="BazaKartotekaModel.WorkInterview">
+              <MappingFragment StoreEntitySet="WorkInterview">
+                <ScalarProperty Name="patientID" ColumnName="patientID" />
+                <ScalarProperty Name="profession" ColumnName="profession" />
+                <ScalarProperty Name="practisedProfession" ColumnName="practisedProfession" />
+                <ScalarProperty Name="ocupationalDisease" ColumnName="ocupationalDisease" />
+                <ScalarProperty Name="nuisance" ColumnName="nuisance" />
+                <ScalarProperty Name="accidents" ColumnName="accidents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

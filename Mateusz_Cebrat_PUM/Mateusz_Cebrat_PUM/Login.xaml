@@ -1,0 +1,23 @@
+﻿<Window x:Class="Mateusz_Cebrat_PUM.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mateusz_Cebrat_PUM"
+        mc:Ignorable="d"
+        Title="Login" Height="300" Width="300" Background="#1E90FF" MinWidth="300" MinHeight="300">
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="images/login.png"/>
+        </Border.Background>
+        <StackPanel Margin="17" >
+            <Label Content="Logowanie" Foreground="AntiqueWhite" FontSize="25" HorizontalAlignment="Center" />
+            <Label Content="Twój login" Foreground="White" FontWeight="Bold"/>
+            <TextBox Name="txtName" Background="#FFC7BEBE" Foreground="Black" FontSize="18" Opacity="0.85"/>
+            <Label Content="Twoje hasło" Foreground="White" FontWeight="Bold"/>
+            <PasswordBox Name="txtPassword" Background="#FFC7BEBE" Foreground="Black" FontSize="18" Opacity="0.85"/>
+            <Button Name="bntSubmit" Click="bntSubmit_Click" Content="Zatwierdź" Margin="45 8" Background="#626262" Foreground="WhiteSmoke" FontSize="20" Opacity="0.9" Cursor="Hand" />
+        </StackPanel>
+        
+    </Border>
+</Window>
